@@ -76,17 +76,15 @@ function displayText() {
     strokeWeight(3);
     textAlign(CENTER, CENTER);
     if (escaped) {
-			 if (!linked) {
-        let link = createA('twine.html', currentText);
-        link.style('font-size', '32px'); // Large text
-        link.style('color', '#FFFFFF'); // White text
-        link.style('text-align', 'center'); // Center-aligned text
-        link.style('text-decoration', 'none'); // No underline
-  
-          // Position the link in the center
-        link.position(width / 2 - link.width / 2, height / 2);
-        linked=true;
-       }
+      textAlign(CENTER, CENTER);
+      textSize(32);
+      fill(0, 255, 65);
+      noStroke();
+      text(currentText, width / 2, height / 2);
+      if (!linked) {
+        window.parent.postMessage('escaped', '*');
+        linked = true;
+      }
     } else {
       textAlign(CENTER, BOTTOM);
       text(currentText, width / 2, height - 10); // Otherwise, display the text at the bottom

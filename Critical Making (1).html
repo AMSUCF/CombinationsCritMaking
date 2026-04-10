@@ -182,13 +182,43 @@ tw-passage h2 {
 ::-webkit-scrollbar-thumb {
   background: var(--matrix-dim);
   border-radius: 3px;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
+}
+
+/* ===== IMAGES & IFRAMES ===== */
+
+tw-passage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+tw-passage iframe {
+  border: 1px solid var(--matrix-dim);
+  display: block;
+  margin: 1rem auto;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">
+window.addEventListener('message', function(e) {
+  if (e.data === 'escaped') {
+    var links = document.getElementById('passage-links');
+    if (links) links.style.display = 'block';
+    var frame = document.getElementById('escape-frame');
+    if (frame) frame.style.display = 'none';
+  }
+});
+</script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
+
+&lt;iframe id=&quot;escape-frame&quot; src=&quot;escape/index.html&quot; width=&quot;600&quot; height=&quot;600&quot; style=&quot;max-width:100%;&quot;&gt;&lt;/iframe&gt;
+&lt;div id=&quot;passage-links&quot; style=&quot;display:none&quot;&gt;
 
 [[Something]]
 
-[[Nothing]]</tw-passagedata><tw-passagedata pid="2" name="Something" tags="" position="350,275" size="100,100">Probably, with intention, our making matters...
+[[Nothing]]
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="Something" tags="" position="350,275" size="100,100">Probably, with intention, our making matters...
 
-&lt;img src=&quot;butterfly.png&quot;&gt;</tw-passagedata><tw-passagedata pid="3" name="Nothing" tags="" position="475,50" size="100,100">&#39;&#39;Hypertext&#39;&#39; is everywhere, and now it is (bg:(gradient: 0, 0,#ffffff,0.5,#19e5e6,1,#ffffff))[unremarkable.]
+&lt;img src=&quot;butterfly.png&quot;&gt;
+
+&lt;iframe src=&quot;tracery/index.html&quot; width=&quot;100%&quot; height=&quot;400&quot;&gt;&lt;/iframe&gt;</tw-passagedata><tw-passagedata pid="3" name="Nothing" tags="" position="475,50" size="100,100">&#39;&#39;Hypertext&#39;&#39; is everywhere, and now it is (bg:(gradient: 0, 0,#ffffff,0.5,#19e5e6,1,#ffffff))[unremarkable.]
 
 We are now [[bored by links-&gt;Something]].
 
@@ -211,7 +241,9 @@ Apparently, we&#39;re into [[agents]].
 (else-if: $MatrixName contains &quot;agent smith&quot;)[Agent Smith? You root for the villain who monologues about the smell of humanity? Sounds about right.]
 (else-if: $MatrixName contains &quot;oracle&quot;)[The Oracle. You picked the one who sits in a kitchen baking cookies and being cryptic. Living the dream, honestly.]
 (else-if: $MatrixName contains &quot;cypher&quot;)[Cypher?! The guy who betrayed everyone for a fake steak? I mean, it did look like a really good steak...]
-(else:)[Huh, don&#39;t remember that one. Are you sure you watched the right movie?]</tw-passagedata></tw-storydata>
+(else:)[Huh, don&#39;t remember that one. Are you sure you watched the right movie?]
+
+&lt;iframe src=&quot;tracery/index.html&quot; width=&quot;100%&quot; height=&quot;400&quot;&gt;&lt;/iframe&gt;</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
