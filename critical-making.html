@@ -199,67 +199,7 @@ tw-passage iframe {
   margin: 1rem auto;
 }
 
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">
-var traceryAdded = false;
-
-(function() {
-  function checkForEnding() {
-    var passage = document.querySelector('tw-passage');
-    if (!passage) return;
-    var links = passage.querySelectorAll('tw-link, .enchantment-link');
-    var isEnding = links.length === 0;
-
-    if (isEnding && !traceryAdded) {
-      traceryAdded = true;
-
-      var iframe = document.createElement('iframe');
-      iframe.id = 'tracery-bg';
-      iframe.src = 'tracery/index.html';
-      iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:0;';
-      document.body.appendChild(iframe);
-
-      var story = document.querySelector('tw-story');
-      if (story) {
-        story.style.position = 'relative';
-        story.style.zIndex = '10';
-      }
-
-      var hideRain = document.createElement('style');
-      hideRain.id = 'tracery-overrides';
-      hideRain.textContent = 'body::before,body::after{display:none!important}';
-      document.head.appendChild(hideRain);
-
-    } else if (!isEnding && traceryAdded) {
-      var old = document.getElementById('tracery-bg');
-      if (old) old.remove();
-      var overrides = document.getElementById('tracery-overrides');
-      if (overrides) overrides.remove();
-      var story = document.querySelector('tw-story');
-      if (story) { story.style.position = ''; story.style.zIndex = ''; }
-      traceryAdded = false;
-    }
-  }
-
-  var observer = new MutationObserver(function() {
-    setTimeout(checkForEnding, 600);
-  });
-  var target = document.body || document.documentElement;
-  observer.observe(target, {childList: true, subtree: true});
-
-  setInterval(checkForEnding, 2000);
-
-  document.addEventListener('click', function(e) {
-    if (!traceryAdded) return;
-    var passage = document.querySelector('tw-passage');
-    if (passage && passage.contains(e.target)) return;
-    var iframe = document.getElementById('tracery-bg');
-    if (!iframe) return;
-    try {
-      iframe.contentWindow.postMessage({type: 'click', x: e.clientX, y: e.clientY}, '*');
-    } catch(err) {}
-  });
-})();
-</script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
+</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
 
 [[Something]]
 
@@ -308,5 +248,65 @@ h(Math,"asinh",xr.asinh,Math.asinh(1e300)===Infinity);h(Math,"atanh",xr.atanh,Ma
 ;require("harlowe")}());
 </script>
 
+<script>
+(function(){
+  var traceryAdded = false;
+
+  function checkForEnding() {
+    var passage = document.querySelector('tw-passage');
+    if (!passage) return;
+    var links = passage.querySelectorAll('tw-link, .enchantment-link');
+    var isEnding = links.length === 0;
+
+    if (isEnding && !traceryAdded) {
+      traceryAdded = true;
+
+      var iframe = document.createElement('iframe');
+      iframe.id = 'tracery-bg';
+      iframe.src = 'tracery/index.html';
+      iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:0;';
+      document.body.appendChild(iframe);
+
+      var story = document.querySelector('tw-story');
+      if (story) {
+        story.style.position = 'relative';
+        story.style.zIndex = '10';
+      }
+
+      var s = document.createElement('style');
+      s.id = 'tracery-overrides';
+      s.textContent = 'body::before,body::after{display:none!important}';
+      document.head.appendChild(s);
+
+    } else if (!isEnding && traceryAdded) {
+      var old = document.getElementById('tracery-bg');
+      if (old) old.remove();
+      var o = document.getElementById('tracery-overrides');
+      if (o) o.remove();
+      var story = document.querySelector('tw-story');
+      if (story) { story.style.position = ''; story.style.zIndex = ''; }
+      traceryAdded = false;
+    }
+  }
+
+  var observer = new MutationObserver(function() {
+    setTimeout(checkForEnding, 600);
+  });
+  observer.observe(document.documentElement, {childList: true, subtree: true});
+
+  setInterval(checkForEnding, 2000);
+
+  document.addEventListener('click', function(e) {
+    if (!traceryAdded) return;
+    var passage = document.querySelector('tw-passage');
+    if (passage && passage.contains(e.target)) return;
+    var iframe = document.getElementById('tracery-bg');
+    if (!iframe) return;
+    try {
+      iframe.contentWindow.postMessage({type: 'click', x: e.clientX, y: e.clientY}, '*');
+    } catch(err) {}
+  });
+})();
+</script>
 </body>
 </html>
