@@ -270,9 +270,12 @@ body {
 
 #escape-container iframe {
 	display:block;
-	border:1px solid #0a6e23;
+	border:none;
+	width:600px;
+	height:600px;
 	max-width:90vw;
 	max-height:90vh;
+	overflow:hidden;
 }
 
 #escape-container::after {
@@ -12042,7 +12045,7 @@ CHAR 9835
 	<!-- ESCAPE ROOM OVERLAY -->
 	<div id="escape-overlay">
 		<div id="escape-container">
-			<iframe src="escape/index.html" width="600" height="600"></iframe>
+			<iframe src="escape/index.html" width="600" height="600" scrolling="no"></iframe>
 		</div>
 	</div>
 	<!-- TWINE LINK OVERLAY -->
