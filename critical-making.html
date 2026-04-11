@@ -199,27 +199,7 @@ tw-passage iframe {
   margin: 1rem auto;
 }
 
-#tracery-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: none;
-  z-index: 5;
-}
-
-body.has-tracery-bg {
-  background-color: transparent !important;
-}
-
-body.has-tracery-bg tw-story {
-  position: relative;
-  z-index: 10;
-}
-
-body.has-tracery-bg::before,
-body.has-tracery-bg::after {
-  display: none;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">
 var traceryAdded = false;
 
 (function() {
@@ -231,15 +211,31 @@ var traceryAdded = false;
 
     if (isEnding && !traceryAdded) {
       traceryAdded = true;
+
       var iframe = document.createElement('iframe');
       iframe.id = 'tracery-bg';
       iframe.src = 'tracery/index.html';
+      iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:0;';
       document.body.appendChild(iframe);
-      document.body.classList.add('has-tracery-bg');
+
+      var story = document.querySelector('tw-story');
+      if (story) {
+        story.style.position = 'relative';
+        story.style.zIndex = '10';
+      }
+
+      var hideRain = document.createElement('style');
+      hideRain.id = 'tracery-overrides';
+      hideRain.textContent = 'body::before,body::after{display:none!important}';
+      document.head.appendChild(hideRain);
+
     } else if (!isEnding && traceryAdded) {
       var old = document.getElementById('tracery-bg');
       if (old) old.remove();
-      document.body.classList.remove('has-tracery-bg');
+      var overrides = document.getElementById('tracery-overrides');
+      if (overrides) overrides.remove();
+      var story = document.querySelector('tw-story');
+      if (story) { story.style.position = ''; story.style.zIndex = ''; }
       traceryAdded = false;
     }
   }
@@ -247,16 +243,20 @@ var traceryAdded = false;
   var observer = new MutationObserver(function() {
     setTimeout(checkForEnding, 600);
   });
-  observer.observe(document.body || document.documentElement, {childList: true, subtree: true});
+  var target = document.body || document.documentElement;
+  observer.observe(target, {childList: true, subtree: true});
+
+  setInterval(checkForEnding, 2000);
 
   document.addEventListener('click', function(e) {
     if (!traceryAdded) return;
     var passage = document.querySelector('tw-passage');
     if (passage && passage.contains(e.target)) return;
     var iframe = document.getElementById('tracery-bg');
-    if (iframe && iframe.contentWindow) {
+    if (!iframe) return;
+    try {
       iframe.contentWindow.postMessage({type: 'click', x: e.clientX, y: e.clientY}, '*');
-    }
+    } catch(err) {}
   });
 })();
 </script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
