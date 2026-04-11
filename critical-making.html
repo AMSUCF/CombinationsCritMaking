@@ -261,30 +261,22 @@ h(Math,"asinh",xr.asinh,Math.asinh(1e300)===Infinity);h(Math,"atanh",xr.atanh,Ma
     if (isEnding && !traceryAdded) {
       traceryAdded = true;
 
+      var s = document.createElement('style');
+      s.id = 'tracery-overrides';
+      s.textContent = 'html,body,tw-story{background:transparent!important;overflow:visible!important}body::before,body::after{display:none!important}tw-story{position:relative!important;z-index:10!important}';
+      document.head.appendChild(s);
+
       var iframe = document.createElement('iframe');
       iframe.id = 'tracery-bg';
       iframe.src = 'tracery/index.html';
-      iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:0;';
+      iframe.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:1;pointer-events:none;';
       document.body.appendChild(iframe);
-
-      var story = document.querySelector('tw-story');
-      if (story) {
-        story.style.position = 'relative';
-        story.style.zIndex = '10';
-      }
-
-      var s = document.createElement('style');
-      s.id = 'tracery-overrides';
-      s.textContent = 'body::before,body::after{display:none!important}';
-      document.head.appendChild(s);
 
     } else if (!isEnding && traceryAdded) {
       var old = document.getElementById('tracery-bg');
       if (old) old.remove();
       var o = document.getElementById('tracery-overrides');
       if (o) o.remove();
-      var story = document.querySelector('tw-story');
-      if (story) { story.style.position = ''; story.style.zIndex = ''; }
       traceryAdded = false;
     }
   }
