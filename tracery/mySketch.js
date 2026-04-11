@@ -24,13 +24,23 @@ function draw() {
 
 //This draws the word with each mouse click
 function mouseClicked() {
-	var grammar = tracery.createGrammar(grammarSource); //set up tracery library
-	grammar.addModifiers(tracery.baseEngModifiers); //set up English grammer properly (capitals and a/an)
-	var output = grammar.flatten("#origin#"); //creates sentence from grammar source
-	let p = new Particle(mouseX,mouseY,output);
-    particles.push(p);
-
+	spawnParticle(mouseX, mouseY);
 }
+
+function spawnParticle(x, y) {
+	var grammar = tracery.createGrammar(grammarSource);
+	grammar.addModifiers(tracery.baseEngModifiers);
+	var output = grammar.flatten("#origin#");
+	let p = new Particle(x, y, output);
+	particles.push(p);
+}
+
+// Listen for clicks forwarded from parent page
+window.addEventListener('message', function(e) {
+	if (e.data && e.data.type === 'click') {
+		spawnParticle(e.data.x, e.data.y);
+	}
+});
 
 // grammerSource is generated using:
 // http://tracery.io/ 

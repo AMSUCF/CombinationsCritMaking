@@ -235,6 +235,16 @@ var traceryAdded = false;
     }
   });
   observer.observe(document.body || document.documentElement, {childList: true, subtree: true});
+
+  document.addEventListener('click', function(e) {
+    if (!traceryAdded) return;
+    var passage = document.querySelector('tw-passage');
+    if (passage && passage.contains(e.target)) return;
+    var iframe = document.getElementById('tracery-bg');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({type: 'click', x: e.clientX, y: e.clientY}, '*');
+    }
+  });
 })();
 </script><tw-passagedata pid="1" name="Start" tags="" position="125,50" size="100,100">What does it mean to make a thing?
 
